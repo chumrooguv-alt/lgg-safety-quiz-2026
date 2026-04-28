@@ -1,1 +1,641 @@
-# lgg-safety-quiz-2026
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safety Scenario Card Game — LUX* Grand Gaube | World Safety & Health Day 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#12103A; --navy2:#1C1850; --purple:#A888FF;
+    --gold:#C9A84C; --teal:#1D9E75; --red:#E24B4A;
+    --text:#EDE9FF; --muted:#9080C0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--navy);font-family:'DM Sans',sans-serif;min-height:100vh;color:var(--text);}
+
+  .hero{background:var(--navy2);border-bottom:1px solid rgba(168,136,255,0.2);padding:26px 20px 22px;text-align:center;}
+  .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.35);border-radius:20px;padding:4px 14px;margin-bottom:12px;}
+  .hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  .hero-tag span{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);}
+  .hero-title{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,36px);font-weight:900;font-style:italic;color:var(--text);line-height:1.1;margin-bottom:8px;}
+  .hero-sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
+  .cat-pills{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;}
+  .cat-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;}
+  .pill-fire{background:rgba(226,75,74,0.15);color:#F09595;border:1px solid rgba(226,75,74,0.3);}
+  .pill-chemical{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3);}
+  .pill-mental{background:rgba(168,136,255,0.15);color:var(--purple);border:1px solid rgba(168,136,255,0.3);}
+  .pill-osh{background:rgba(29,158,117,0.15);color:#5DCAA5;border:1px solid rgba(29,158,117,0.3);}
+  .pill-hotel{background:rgba(215,100,170,0.15);color:#ED93B1;border:1px solid rgba(215,100,170,0.3);}
+  .pill-pool{background:rgba(55,138,221,0.15);color:#85B7EB;border:1px solid rgba(55,138,221,0.3);}
+
+  .container{max-width:660px;margin:0 auto;padding:20px 16px 60px;}
+
+  .screen-card{background:var(--navy2);border:1px solid rgba(168,136,255,0.18);border-radius:16px;padding:28px 24px;margin-bottom:14px;animation:slideIn 0.3s ease;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  .reg-icon{font-size:40px;text-align:center;margin-bottom:14px;}
+  .reg-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;text-align:center;}
+  .reg-desc{font-size:13px;color:var(--muted);line-height:1.6;text-align:center;margin-bottom:24px;}
+
+  .field-group{margin-bottom:18px;}
+  .field-label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:7px;}
+  .req{color:var(--red);margin-left:2px;}
+
+  input[type="text"],select{width:100%;height:44px;padding:0 14px;border-radius:10px;border:1.5px solid rgba(168,136,255,0.2);background:rgba(168,136,255,0.06);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color 0.15s;}
+  input[type="text"]::placeholder{color:var(--muted);}
+  input[type="text"]:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(168,136,255,0.12);}
+  select option{background:#1C1850;color:var(--text);}
+
+  .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .gender-opt{position:relative;cursor:pointer;}
+  .gender-opt input{position:absolute;opacity:0;width:0;height:0;}
+  .gender-card{border:1.5px solid rgba(168,136,255,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:border-color 0.15s,background 0.15s;}
+  .gender-card:hover{border-color:var(--purple);}
+  .gender-opt input:checked+.gender-card{border-color:var(--purple);background:rgba(168,136,255,0.1);}
+  .gender-icon{font-size:22px;margin-bottom:5px;}
+  .gender-text{font-size:14px;font-weight:500;color:var(--text);}
+  .err{font-size:11.5px;color:var(--red);margin-top:5px;display:none;}
+  .err.show{display:block;}
+
+  .rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+  .rule-item{background:rgba(168,136,255,0.08);border:1px solid rgba(168,136,255,0.18);border-radius:10px;padding:12px 14px;}
+  .rule-num{font-size:20px;font-weight:700;color:var(--purple);line-height:1;margin-bottom:4px;}
+  .rule-lbl{font-size:12px;color:var(--muted);}
+
+  .primary-btn{width:100%;height:50px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s,transform 0.1s;margin-top:8px;}
+  .primary-btn:hover{opacity:0.9;}
+  .primary-btn:active{transform:scale(0.99);}
+
+  .progress-section{display:none;margin-bottom:16px;}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .progress-label{font-size:12px;color:var(--muted);}
+  .score-badge{background:rgba(168,136,255,0.15);border:1px solid rgba(168,136,255,0.3);border-radius:20px;padding:3px 12px;font-size:13px;font-weight:600;color:var(--purple);}
+  .progress-track{height:5px;background:rgba(168,136,255,0.15);border-radius:3px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--purple);border-radius:3px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);}
+
+  .question-screen{display:none;}
+  .q-badge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:4px 12px;font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;}
+  .badge-fire{background:rgba(226,75,74,0.15);color:#F09595;border:1px solid rgba(226,75,74,0.3);}
+  .badge-chemical{background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.3);}
+  .badge-mental{background:rgba(168,136,255,0.15);color:var(--purple);border:1px solid rgba(168,136,255,0.3);}
+  .badge-osh{background:rgba(29,158,117,0.15);color:#5DCAA5;border:1px solid rgba(29,158,117,0.3);}
+  .badge-hotel{background:rgba(215,100,170,0.15);color:#ED93B1;border:1px solid rgba(215,100,170,0.3);}
+  .badge-pool{background:rgba(55,138,221,0.15);color:#85B7EB;border:1px solid rgba(55,138,221,0.3);}
+  .badge-electric{background:rgba(239,159,39,0.15);color:#FAC775;border:1px solid rgba(239,159,39,0.3);}
+  .badge-height{background:rgba(216,90,48,0.15);color:#F0997B;border:1px solid rgba(216,90,48,0.3);}
+  .badge-evac{background:rgba(83,74,183,0.15);color:#AFA9EC;border:1px solid rgba(83,74,183,0.3);}
+
+  .q-number{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+  .q-text{font-size:16px;font-weight:500;color:var(--text);line-height:1.65;padding-bottom:18px;border-bottom:1px solid rgba(168,136,255,0.12);margin-bottom:16px;}
+  .q-options{display:flex;flex-direction:column;gap:9px;}
+  .opt{width:100%;text-align:left;padding:13px 16px;border-radius:10px;border:1.5px solid rgba(168,136,255,0.2);background:rgba(168,136,255,0.04);color:var(--text);font-size:14px;cursor:pointer;transition:border-color 0.15s,background 0.15s;font-family:inherit;line-height:1.45;display:flex;align-items:flex-start;gap:10px;}
+  .opt-letter{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(168,136,255,0.15);border:1px solid rgba(168,136,255,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--purple);margin-top:1px;}
+  .opt:hover:not(:disabled){border-color:var(--purple);background:rgba(168,136,255,0.1);}
+  .opt.correct{border-color:var(--teal);background:rgba(29,158,117,0.1);color:#9FE1CB;}
+  .opt.correct .opt-letter{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:rgba(226,75,74,0.1);color:#F09595;}
+  .opt.wrong .opt-letter{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt.reveal{border-color:rgba(29,158,117,0.4);background:rgba(29,158,117,0.06);opacity:0.65;}
+  .opt:disabled{cursor:default;}
+
+  .feedback{border-radius:10px;padding:14px 16px;margin-top:14px;display:none;animation:fadeIn 0.25s ease;}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .feedback.correct-fb{background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.35);}
+  .feedback.wrong-fb{background:rgba(226,75,74,0.1);border:1px solid rgba(226,75,74,0.3);}
+  .fb-title{font-size:13px;font-weight:600;margin-bottom:5px;}
+  .correct-fb .fb-title{color:#5DCAA5;}
+  .wrong-fb .fb-title{color:#F09595;}
+  .fb-body{font-size:13px;line-height:1.6;color:var(--muted);}
+
+  .next-btn{width:100%;height:48px;background:var(--purple);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:none;margin-top:14px;transition:opacity 0.15s;}
+  .next-btn:hover{opacity:0.9;}
+
+  .submitting-screen{display:none;}
+  .spin{width:44px;height:44px;border:3px solid rgba(168,136,255,0.2);border-top-color:var(--purple);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .submitting-text{font-size:15px;color:var(--muted);text-align:center;}
+
+  .final-screen{display:none;text-align:center;}
+  .trophy{font-size:52px;margin-bottom:14px;}
+  .final-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);margin-bottom:6px;}
+  .final-score-big{font-family:'Playfair Display',serif;font-size:54px;font-weight:900;color:var(--purple);line-height:1;margin-bottom:4px;}
+  .final-score-sub{font-size:14px;color:var(--muted);margin-bottom:18px;}
+  .grade-badge{display:inline-block;padding:8px 24px;border-radius:20px;font-size:14px;font-weight:600;margin-bottom:22px;}
+  .grade-champion{background:rgba(201,168,76,0.2);color:var(--gold);border:1px solid rgba(201,168,76,0.4);}
+  .grade-aware{background:rgba(168,136,255,0.15);color:var(--purple);border:1px solid rgba(168,136,255,0.3);}
+  .grade-good{background:rgba(29,158,117,0.15);color:#5DCAA5;border:1px solid rgba(29,158,117,0.3);}
+  .grade-keep{background:rgba(226,75,74,0.12);color:#F09595;border:1px solid rgba(226,75,74,0.3);}
+
+  .summary-card{background:rgba(168,136,255,0.07);border:1px solid rgba(168,136,255,0.15);border-radius:12px;overflow:hidden;margin-bottom:22px;text-align:left;}
+  .sum-row{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid rgba(168,136,255,0.1);font-size:13px;}
+  .sum-row:last-child{border-bottom:none;}
+  .sum-key{color:var(--muted);font-size:12px;}
+  .sum-val{color:var(--text);font-weight:500;font-size:13px;text-align:right;}
+
+  .grade-table{background:rgba(168,136,255,0.05);border:1px solid rgba(168,136,255,0.12);border-radius:12px;overflow:hidden;margin-bottom:22px;text-align:left;}
+  .gt-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(168,136,255,0.08);font-size:13px;}
+  .gt-row:last-child{border-bottom:none;}
+  .gt-row.active{background:rgba(168,136,255,0.12);}
+  .gt-left{color:var(--text);font-weight:500;}
+  .gt-right{color:var(--muted);font-size:12px;}
+
+  .final-btns{display:flex;gap:10px;}
+  .btn-restart{flex:1;height:48px;background:var(--purple);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s;}
+  .btn-restart:hover{opacity:0.9;}
+  .btn-share{flex:1;height:48px;background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.35);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity 0.15s;}
+  .btn-share:hover{opacity:0.85;}
+
+  .page-footer{text-align:center;padding:20px;font-size:11px;color:rgba(144,128,192,0.4);letter-spacing:0.5px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag"><div class="hero-tag-dot"></div><span>LUX* Grand Gaube &nbsp;·&nbsp; 28 April 2026</span></div>
+  <div class="hero-title">Safety Scenario Card Game</div>
+  <div class="hero-sub">World Day for Safety &amp; Health at Work 2026 — 25 Questions</div>
+  <div class="cat-pills">
+    <span class="cat-pill pill-fire">🔥 Fire</span>
+    <span class="cat-pill pill-chemical">⚗️ Chemical</span>
+    <span class="cat-pill pill-mental">🧠 Mental Health</span>
+    <span class="cat-pill pill-osh">⚠️ OSH</span>
+    <span class="cat-pill pill-hotel">🏨 Hotel Safety</span>
+    <span class="cat-pill pill-pool">🏊 Pool &amp; Beach</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- REGISTRATION -->
+  <div id="regScreen">
+    <div class="screen-card">
+      <div class="reg-icon">📋</div>
+      <div class="reg-title">Before we start</div>
+      <div class="reg-desc">Fill in your details so your score is recorded. Takes 30 seconds.</div>
+
+      <div class="field-group">
+        <label class="field-label" for="fname">Full name <span class="req">*</span></label>
+        <input type="text" id="fname" placeholder="e.g. Jean-Marie Dupont">
+        <div class="err" id="err-name">Please enter your full name.</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Gender <span class="req">*</span></label>
+        <div class="gender-grid">
+          <label class="gender-opt"><input type="radio" name="gender" value="Male">
+            <div class="gender-card"><div class="gender-icon">👨</div><div class="gender-text">Male</div></div></label>
+          <label class="gender-opt"><input type="radio" name="gender" value="Female">
+            <div class="gender-card"><div class="gender-icon">👩</div><div class="gender-text">Female</div></div></label>
+        </div>
+        <div class="err" id="err-gender">Please select your gender.</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="dept">Department <span class="req">*</span></label>
+        <select id="dept">
+          <option value="">— Select your department —</option>
+          <option>Food &amp; Beverage</option><option>Kitchen</option><option>Housekeeping</option>
+          <option>Front Office</option><option>Maintenance / Engineering</option><option>Security</option>
+          <option>Spa &amp; Wellness</option><option>Recreation &amp; Water Sports</option>
+          <option>Finance</option><option>Human Resources</option><option>Sales &amp; Marketing</option>
+          <option>Safety &amp; Health</option><option>Management</option><option>Other</option>
+        </select>
+        <div class="err" id="err-dept">Please select your department.</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="jobtitle">Job title <span class="req">*</span></label>
+        <input type="text" id="jobtitle" placeholder="e.g. F&amp;B Supervisor">
+        <div class="err" id="err-job">Please enter your job title.</div>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-item"><div class="rule-num">25</div><div class="rule-lbl">Scenario cards</div></div>
+        <div class="rule-item"><div class="rule-num">1pt</div><div class="rule-lbl">Per correct answer</div></div>
+        <div class="rule-item"><div class="rule-num">9</div><div class="rule-lbl">Safety categories</div></div>
+        <div class="rule-item"><div class="rule-num">🏆</div><div class="rule-lbl">Score 23–25 to win</div></div>
+      </div>
+
+      <button class="primary-btn" onclick="startQuiz()">Start the quiz →</button>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section" id="progressSection">
+    <div class="progress-top">
+      <span class="progress-label" id="progressLabel">Card 1 of 25</span>
+      <span class="score-badge" id="scoreBadge">Score: 0 / 25</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- QUESTION -->
+  <div class="question-screen" id="questionScreen">
+    <div class="screen-card" id="qCard">
+      <div class="q-badge" id="qBadge"></div>
+      <div class="q-number" id="qNumber"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-options" id="qOptions"></div>
+      <div class="feedback" id="feedbackBox">
+        <div class="fb-title" id="fbTitle"></div>
+        <div class="fb-body" id="fbBody"></div>
+      </div>
+      <button class="next-btn" id="nextBtn" onclick="nextCard()"></button>
+    </div>
+  </div>
+
+  <!-- SUBMITTING -->
+  <div class="submitting-screen" id="submittingScreen">
+    <div class="screen-card" style="padding:40px 24px;">
+      <div class="spin"></div>
+      <div class="submitting-text">Saving your results...</div>
+    </div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="final-screen" id="finalScreen">
+    <div class="screen-card">
+      <div class="trophy" id="finalTrophy"></div>
+      <div class="final-title" id="finalTitle"></div>
+      <div class="final-score-big" id="finalScoreBig"></div>
+      <div class="final-score-sub">out of 25 correct</div>
+      <div class="grade-badge" id="gradeBadge"></div>
+      <div class="summary-card" id="summaryCard"></div>
+      <div class="grade-table">
+        <div class="gt-row" id="gr4"><span class="gt-left">🏆 Safety Champion</span><span class="gt-right">23 – 25</span></div>
+        <div class="gt-row" id="gr3"><span class="gt-left">⭐ Safety Aware</span><span class="gt-right">18 – 22</span></div>
+        <div class="gt-row" id="gr2"><span class="gt-left">👍 Good Effort</span><span class="gt-right">13 – 17</span></div>
+        <div class="gt-row" id="gr1"><span class="gt-left">📚 Keep Learning</span><span class="gt-right">0 – 12</span></div>
+      </div>
+      <div class="final-btns">
+        <button class="btn-restart" onclick="restartGame()">Play again</button>
+        <button class="btn-share" onclick="shareScore()">Share score 📲</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">LUX* Grand Gaube &nbsp;·&nbsp; World Safety &amp; Health Day 2026 &nbsp;·&nbsp; ILO Theme: Ensuring a Healthy Psychosocial Working Environment for All</div>
+
+<script>
+
+// ── Time window check ──────────────────────────────────
+function checkTimeWindow() {
+  return true;
+}
+
+function showTimeMessage(icon, title, body, sub, color) {
+  document.getElementById('regScreen').innerHTML = `
+    <div class="screen-card" style="text-align:center; padding:40px 24px;">
+      <div style="font-size:52px; margin-bottom:16px;">${icon}</div>
+      <div style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:#EDE9FF; margin-bottom:12px;">${title}</div>
+      <div style="font-size:14px; color:#9080C0; line-height:1.7; margin-bottom:8px;">${body}</div>
+      <div style="font-size:13px; color:${color}; margin-top:12px; font-weight:500;">${sub}</div>
+      <div style="margin-top:24px; padding:12px 20px; background:rgba(168,136,255,0.08); border:1px solid rgba(168,136,255,0.2); border-radius:10px;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:#C9A84C; margin-bottom:4px;">Quiz Window</div>
+        <div style="font-size:15px; font-weight:700; color:#EDE9FF;">28 April 2026 &nbsp;·&nbsp; 12:00 – 13:00</div>
+      </div>
+    </div>
+  `;
+}
+
+// Run check on load
+window.addEventListener('DOMContentLoaded', function() {
+  checkTimeWindow();
+});
+
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycby3rsayI8GUazEDwYhWY20s76GYTi-aarGeqCwUhJt-zliA1zd3DumOZ3CSJNNPwOyP6Q/exec";
+
+const CARDS = [
+  // ── FIRE SAFETY ──
+  { cat:'fire', label:'Fire Safety', emoji:'🔥',
+    q:'You are working in the kitchen and notice smoke coming from a storage cupboard. What is the FIRST thing you should do?',
+    opts:['Open the cupboard to see what is burning','Raise the alarm immediately and alert colleagues','Try to put out the fire yourself before calling anyone','Continue working and wait to see if it gets worse'],
+    ans:1, explain:'The first action is always to raise the alarm. Never open a door to a suspected fire. Follow R.A.C.E: Rescue, Alarm, Contain, Extinguish.' },
+
+  { cat:'fire', label:'Fire Safety', emoji:'🔥',
+    q:'Which type of fire extinguisher should you NEVER use on an electrical fire?',
+    opts:['CO2 extinguisher','Dry powder extinguisher','Water extinguisher','Clean agent extinguisher'],
+    ans:2, explain:'Water conducts electricity — using it on an electrical fire puts you at serious risk of electrocution. Always use CO2 or dry powder on electrical fires.' },
+
+  { cat:'fire', label:'Fire Safety', emoji:'🔥',
+    q:'During a fire evacuation, a guest refuses to leave their room. What do you do?',
+    opts:['Leave them — it is their choice','Stay and try to convince them while the fire spreads','Clearly instruct them to evacuate, inform your Fire Warden immediately and do not delay your own evacuation','Call reception and wait for instructions'],
+    ans:2, explain:'In a real fire, you must inform the Fire Warden immediately if a guest refuses to evacuate. Do not put yourself at risk by staying. The Fire Warden will coordinate with emergency services.' },
+
+  // ── CHEMICAL SAFETY ──
+  { cat:'chemical', label:'Chemical Safety', emoji:'⚗️',
+    q:'You find an unlabelled bottle of liquid in the housekeeping storeroom. What should you do?',
+    opts:['Smell it carefully to identify the substance','Pour it down the drain to dispose of it safely','Do not use it — isolate it and report to your supervisor immediately','Mix it with water to dilute any potential hazard'],
+    ans:2, explain:'Never use, smell, or dispose of an unlabelled chemical. Isolate it and report to your supervisor. All chemicals must be properly labelled and stored at all times.' },
+
+  { cat:'chemical', label:'Chemical Safety', emoji:'⚗️',
+    q:'A colleague splashes a cleaning chemical in their eyes. What is the correct immediate action?',
+    opts:['Apply a dry cloth and take them to the clinic','Rinse eyes continuously with clean water for at least 15 minutes then seek medical attention','Tell them to blink rapidly to flush the chemical','Wait 5 minutes to see if irritation passes'],
+    ans:1, explain:'Immediate eye irrigation for a minimum of 15 minutes is critical. Do not rub the eyes. Seek medical attention afterwards. Act fast — this is a first aid emergency.' },
+
+  { cat:'chemical', label:'Chemical Safety', emoji:'⚗️',
+    q:'Which chemical combination is EXTREMELY dangerous and must never be mixed?',
+    opts:['Water and dish soap','Bleach and ammonia-based cleaners','Vinegar and warm water','Detergent and warm water'],
+    ans:1, explain:'Mixing bleach with ammonia produces toxic chloramine gas which can cause serious respiratory damage. Always read labels and never mix chemicals unless instructed.' },
+
+  { cat:'chemical', label:'Chemical Safety', emoji:'⚗️',
+    q:'A housekeeper notices their skin is irritated after using a new cleaning product without gloves. What should happen next?',
+    opts:['Continue working — it will pass','Wash the skin with water, report to the supervisor and complete an incident report','Apply a moisturiser and continue working','Wait until end of shift to report it'],
+    ans:1, explain:'Any chemical skin reaction must be reported immediately. Wash the affected area, seek first aid, report to your supervisor and complete an incident report. This ensures the correct PPE is identified to prevent recurrence.' },
+
+  // ── MENTAL HEALTH ──
+  { cat:'mental', label:'Mental Health', emoji:'🧠',
+    q:'A colleague has been unusually quiet and stressed for several days. What is the BEST response?',
+    opts:['Report them to HR for performance issues','Ignore it — it is not your business','Check in privately, listen without judgement and let them know support is available','Tell other colleagues so they can keep an eye on them'],
+    ans:2, explain:'A simple private check-in can make a real difference. Listen without judgement. Early intervention can prevent a minor stress from becoming a crisis.' },
+
+  { cat:'mental', label:'Mental Health', emoji:'🧠',
+    q:'Which of the following is a psychosocial hazard at work?',
+    opts:['A wet floor without a warning sign','Excessive workload, lack of management support and workplace bullying','Using the wrong PPE for a cleaning task','Poor lighting in a storage room'],
+    ans:1, explain:'Psychosocial hazards arise from work design and management. They include excessive workload, bullying and lack of support. Like physical hazards, they must be identified, assessed and controlled.' },
+
+  { cat:'mental', label:'Mental Health', emoji:'🧠',
+    q:"What is the ILO's official theme for World Safety & Health Day 2026?",
+    opts:['Preventing slips, trips and falls at work','The role of AI in workplace safety','Ensuring a healthy psychosocial working environment for all','Climate change and occupational health risks'],
+    ans:2, explain:"The ILO's 2026 theme focuses on how workload, stress, communication and management practices affect workers' psychological wellbeing globally." },
+
+  // ── OSH GENERAL ──
+  { cat:'osh', label:'OSH General', emoji:'⚠️',
+    q:'You see a colleague lifting heavy boxes by bending at the waist with straight legs. What should you do?',
+    opts:['Say nothing — it is their choice','Report them to the Safety Officer immediately','Politely show them the correct technique — bend knees, straight back, lift with legs','Take over without explaining why'],
+    ans:2, explain:'Safe manual handling means bending the knees, keeping the back straight and lifting with leg muscles. A polite reminder prevents musculoskeletal injury — one of the most common injuries in hospitality.' },
+
+  { cat:'osh', label:'OSH General', emoji:'⚠️',
+    q:'A heavy trolley almost hits a guest in a corridor. No one is injured. Should you report it?',
+    opts:['No — nothing happened','Yes — near-misses must always be reported as they indicate a potential hazard','Only report if a supervisor was present','Wait to see if it happens again'],
+    ans:1, explain:'Near-misses are warnings. Reporting them allows hazards to be corrected before someone gets hurt. Every near-miss reported is a potential accident prevented.' },
+
+  // ── SLIPS TRIPS & FALLS ──
+  { cat:'hotel', label:'Slips, Trips & Falls', emoji:'🏨',
+    q:'A guest spills a drink on the restaurant floor. What is the correct immediate action?',
+    opts:['Walk around it and inform a colleague later','Place a wet floor sign immediately, clean the spill and remove the sign once dry','Wait for housekeeping to deal with it','Ignore it — the floor is non-slip'],
+    ans:1, explain:'Slips, trips and falls are the most common cause of injury in hotels. Place a wet floor sign immediately to warn others, clean the spill promptly and only remove the sign when the surface is completely dry.' },
+
+  { cat:'hotel', label:'Slips, Trips & Falls', emoji:'🏨',
+    q:'You notice a loose carpet edge in a guest corridor that could cause someone to trip. What do you do?',
+    opts:['Step over it and carry on','Report it to maintenance immediately and place a warning sign if available','Try to fix it yourself with tape','Wait until your next scheduled rounds to report it'],
+    ans:1, explain:'Any trip hazard must be reported to maintenance immediately and a temporary warning must be placed. Do not attempt DIY repairs — improper fixes can make the hazard worse. Act fast to protect guests and colleagues.' },
+
+  { cat:'hotel', label:'Slips, Trips & Falls', emoji:'🏨',
+    q:'What type of footwear is most appropriate for kitchen staff to prevent slips?',
+    opts:['Any closed-toe shoe','Slip-resistant safety shoes with non-slip soles','Rubber sandals','Trainers with good grip'],
+    ans:1, explain:'Slip-resistant safety shoes are mandatory in the kitchen — they are specifically designed to prevent slips on wet, greasy or tiled surfaces which are common in food preparation areas.' },
+
+  // ── POOL & BEACH SAFETY ──
+  { cat:'pool', label:'Pool & Beach Safety', emoji:'🏊',
+    q:'A guest appears to be in difficulty in the swimming pool. You are not a trained lifeguard. What should you do?',
+    opts:['Jump in to rescue them immediately','Shout for help, alert the lifeguard immediately and throw a buoyancy aid if available','Wait to see if they recover on their own','Call reception to report it'],
+    ans:1, explain:'Unless you are a trained lifeguard, jumping in can put both you and the guest at greater risk. Raise the alarm immediately, contact the lifeguard and throw a buoyancy aid. Every second counts.' },
+
+  { cat:'pool', label:'Pool & Beach Safety', emoji:'🏊',
+    q:'Which of the following is a key pool safety rule at LUX* Grand Gaube?',
+    opts:['Children may swim unsupervised if they know how to swim','Guests must be informed of pool depth and safety rules','Pool chemicals can be stored next to the pool bar for convenience','Guests in difficulty should be helped only by other guests'],
+    ans:1, explain:'Informing guests of pool depth, rules and safety features is a fundamental requirement. Children must always be supervised, and pool chemicals must be stored in designated, secure areas away from guests.' },
+
+  { cat:'pool', label:'Pool & Beach Safety', emoji:'🏊',
+    q:'You notice a pool chemical storage lid is open and fumes are present. What do you do?',
+    opts:['Close the lid and carry on','Ventilate the area, avoid breathing the fumes, evacuate the area and call maintenance immediately','Add water to dilute the fumes','Ignore it — pool chemicals always smell strong'],
+    ans:1, explain:'Pool chemical fumes can be toxic and flammable. Ventilate the area immediately, avoid inhaling fumes, evacuate staff and guests from the area and contact maintenance and the SHO immediately.' },
+
+  // ── ELECTRICAL SAFETY ──
+  { cat:'electric', label:'Electrical Safety', emoji:'⚡',
+    q:'You notice a frayed electrical cable near the pool pump room. What should you do?',
+    opts:['Cover it with tape as a temporary fix','Report it to maintenance immediately and isolate the area if possible','Continue using the equipment carefully','Use the equipment for now and report it at end of shift'],
+    ans:1, explain:'Frayed cables are a serious electrical hazard and can cause electrocution or fire — especially near water. Report to maintenance immediately, do not use the equipment and isolate the area to prevent access.' },
+
+  { cat:'electric', label:'Electrical Safety', emoji:'⚡',
+    q:'A colleague attempts to reset a tripped electrical switch without knowing what caused it to trip. What is the risk?',
+    opts:['No risk — switching it back on is always safe','The fault that caused the trip may still be present, risking electrocution, fire or equipment damage','The switch may break permanently','The electricity bill may increase'],
+    ans:1, explain:'Never reset a tripped switch without understanding the cause. The underlying fault could cause electrocution or fire when power is restored. Always call a qualified electrician or maintenance engineer.' },
+
+  { cat:'electric', label:'Electrical Safety', emoji:'⚡',
+    q:'Which of the following is an electrical safety DO in the hotel?',
+    opts:['Use extension leads permanently instead of fixed sockets','Overload sockets to avoid using multiple plug points','Ensure all electrical equipment is PAT tested and faults are reported immediately','Use wet hands when switching on equipment to avoid static'],
+    ans:2, explain:'All electrical equipment must be regularly PAT tested and any faults reported immediately. Never overload sockets, use temporary leads permanently, or handle electrical equipment with wet hands.' },
+
+  // ── WORKING AT HEIGHT ──
+  { cat:'height', label:'Working at Height', emoji:'🪜',
+    q:'A colleague asks you to hold a ladder while they climb to change a light bulb. The ladder is on an uneven surface. What should you do?',
+    opts:['Hold it steady — it will be fine','Do not proceed — the ladder must be placed on a firm, level surface before anyone climbs it','Ask them to be quick so the risk is minimal','Carry on — it is only a short climb'],
+    ans:1, explain:'Working at height on an uneven surface is a serious risk. The ladder must be stable, on firm level ground, secured at the top or footed properly. No one should climb until the surface issue is resolved.' },
+
+  { cat:'height', label:'Working at Height', emoji:'🪜',
+    q:'What is the correct way to carry items up a ladder?',
+    opts:['Hold items in one hand and climb with the other','Use a tool belt or bag so both hands are free for the ladder','Ask someone to throw the items up to you','Balance items on your shoulder'],
+    ans:1, explain:'Both hands must be free when climbing a ladder. Use a tool belt, bag or hoist to carry items. Carrying items in one hand while climbing significantly increases the risk of falling.' },
+
+  // ── GUEST SAFETY & EVACUATION ──
+  { cat:'evac', label:'Guest Safety & Evacuation', emoji:'🚨',
+    q:'During a resort evacuation, what is your primary responsibility as a team member?',
+    opts:['Collect your personal belongings first','Guide guests calmly to the nearest emergency exit and muster point, accounting for all guests in your area','Lock all doors before leaving','Wait for management instruction before doing anything'],
+    ans:1, explain:'In any evacuation your first responsibility is guest safety. Guide guests calmly, do not use lifts, proceed to the designated muster point and report to your Fire Warden. Do not return inside until the all-clear is given.' },
+
+  { cat:'evac', label:'Guest Safety & Evacuation', emoji:'🚨',
+    q:'A guest with mobility difficulties needs help evacuating. What should you do?',
+    opts:['Use the lift to help them evacuate faster','Leave them for emergency services to deal with','Assist them to the nearest refuge point and inform the Fire Warden immediately of their location','Ask another guest to help them'],
+    ans:2, explain:'Guests with mobility difficulties should be assisted to a designated refuge area — a safe location where they can wait for evacuation assistance. Inform the Fire Warden immediately so emergency services are alerted to their location. Never use a lift during a fire evacuation.' },
+];
+
+const BADGE_CLASS = {
+  fire:'badge-fire', chemical:'badge-chemical', mental:'badge-mental',
+  osh:'badge-osh', hotel:'badge-hotel', pool:'badge-pool',
+  electric:'badge-electric', height:'badge-height', evac:'badge-evac'
+};
+const LETTERS = ['A','B','C','D'];
+
+let shuffled=[], current=0, score=0, answered=false;
+let userData={}, startTime=0;
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function startQuiz(){
+  if (!checkTimeWindow()) return;
+
+  const name=document.getElementById('fname').value.trim();
+  const gender=document.querySelector('input[name="gender"]:checked');
+  const dept=document.getElementById('dept').value;
+  const job=document.getElementById('jobtitle').value.trim();
+
+  document.getElementById('err-name').classList.toggle('show',!name);
+  document.getElementById('err-gender').classList.toggle('show',!gender);
+  document.getElementById('err-dept').classList.toggle('show',!dept);
+  document.getElementById('err-job').classList.toggle('show',!job);
+
+  if(!name||!gender||!dept||!job) return;
+
+  userData={name,gender:gender.value,department:dept,jobTitle:job};
+  startTime=Date.now();
+  shuffled=shuffle(CARDS);
+  current=0; score=0;
+
+  document.getElementById('regScreen').style.display='none';
+  document.getElementById('progressSection').style.display='block';
+  document.getElementById('questionScreen').style.display='block';
+  renderCard();
+}
+
+function renderCard(){
+  answered=false;
+  const c=shuffled[current];
+  const total=shuffled.length;
+
+  document.getElementById('progressLabel').textContent=`Card ${current+1} of ${total}`;
+  document.getElementById('scoreBadge').textContent=`Score: ${score} / ${total}`;
+  document.getElementById('progressFill').style.width=((current/total)*100)+'%';
+
+  const badge=document.getElementById('qBadge');
+  badge.className='q-badge '+(BADGE_CLASS[c.cat]||'badge-osh');
+  badge.textContent=c.emoji+'  '+c.label;
+
+  document.getElementById('qNumber').textContent=`Question ${current+1}`;
+  document.getElementById('qText').textContent=c.q;
+
+  const opts=document.getElementById('qOptions');
+  opts.innerHTML='';
+  c.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML=`<span class="opt-letter">${LETTERS[i]}</span><span>${opt}</span>`;
+    btn.onclick=()=>selectAnswer(i);
+    opts.appendChild(btn);
+  });
+
+  const fb=document.getElementById('feedbackBox');
+  fb.style.display='none'; fb.className='feedback';
+  document.getElementById('nextBtn').style.display='none';
+
+  const qc=document.getElementById('qCard');
+  qc.style.animation='none'; void qc.offsetWidth; qc.style.animation='slideIn 0.3s ease';
+}
+
+function selectAnswer(chosen){
+  if(answered) return;
+  answered=true;
+  const c=shuffled[current];
+  const btns=document.querySelectorAll('.opt');
+  const isCorrect=chosen===c.ans;
+  if(isCorrect) score++;
+
+  btns.forEach((btn,i)=>{
+    btn.disabled=true;
+    if(i===c.ans) btn.classList.add('correct');
+    else if(i===chosen&&!isCorrect) btn.classList.add('wrong');
+    else btn.classList.add('reveal');
+  });
+
+  document.getElementById('scoreBadge').textContent=`Score: ${score} / ${shuffled.length}`;
+
+  const fb=document.getElementById('feedbackBox');
+  fb.className='feedback '+(isCorrect?'correct-fb':'wrong-fb');
+  document.getElementById('fbTitle').textContent=isCorrect?'✓  Correct — well done!':'✗  Not quite — here\'s why:';
+  document.getElementById('fbBody').textContent=c.explain;
+  fb.style.display='block';
+
+  const nb=document.getElementById('nextBtn');
+  nb.style.display='block';
+  nb.textContent=current+1<shuffled.length?'Next card →':'See my result →';
+}
+
+function nextCard(){
+  current++;
+  if(current>=shuffled.length) submitAndShowFinal();
+  else renderCard();
+}
+
+function submitAndShowFinal(){
+  document.getElementById('progressSection').style.display='none';
+  document.getElementById('questionScreen').style.display='none';
+  document.getElementById('submittingScreen').style.display='block';
+
+  const total=shuffled.length;
+  const pct=Math.round((score/total)*100);
+  let grade;
+  if(pct>=92) grade='Safety Champion';
+  else if(pct>=72) grade='Safety Aware';
+  else if(pct>=52) grade='Good Effort';
+  else grade='Keep Learning';
+
+  const timeTaken=Math.round((Date.now()-startTime)/1000);
+
+  var url = SHEETS_URL
+    + '?name=' + encodeURIComponent(userData.name)
+    + '&gender=' + encodeURIComponent(userData.gender)
+    + '&department=' + encodeURIComponent(userData.department)
+    + '&jobTitle=' + encodeURIComponent(userData.jobTitle)
+    + '&score=' + encodeURIComponent(score)
+    + '&grade=' + encodeURIComponent(grade)
+    + '&timeTaken=' + encodeURIComponent(timeTaken);
+
+  var img = new Image();
+  img.src = url;
+
+  setTimeout(function(){
+    document.getElementById('submittingScreen').style.display='none';
+    showFinal(score, grade, total);
+  }, 3000);
+}
+
+function showFinal(sc,grade,total){
+  document.getElementById('finalScreen').style.display='block';
+  const pct=Math.round((sc/total)*100);
+  let trophy,title,gradeClass,activeRow;
+  if(pct>=92){trophy='🏆';title='Safety Champion!';gradeClass='grade-champion';activeRow='gr4';}
+  else if(pct>=72){trophy='⭐';title='Safety Aware!';gradeClass='grade-aware';activeRow='gr3';}
+  else if(pct>=52){trophy='👍';title='Good Effort!';gradeClass='grade-good';activeRow='gr2';}
+  else{trophy='📚';title='Keep Learning!';gradeClass='grade-keep';activeRow='gr1';}
+
+  document.getElementById('finalTrophy').textContent=trophy;
+  document.getElementById('finalTitle').textContent=title;
+  document.getElementById('finalScoreBig').textContent=sc+' / '+total;
+  const gb=document.getElementById('gradeBadge');
+  gb.textContent=grade; gb.className='grade-badge '+gradeClass;
+
+  document.getElementById('summaryCard').innerHTML=`
+    <div class="sum-row"><span class="sum-key">Name</span><span class="sum-val">${userData.name}</span></div>
+    <div class="sum-row"><span class="sum-key">Department</span><span class="sum-val">${userData.department}</span></div>
+    <div class="sum-row"><span class="sum-key">Job Title</span><span class="sum-val">${userData.jobTitle}</span></div>
+    <div class="sum-row"><span class="sum-key">Gender</span><span class="sum-val">${userData.gender}</span></div>
+    <div class="sum-row"><span class="sum-key">Final Score</span><span class="sum-val" style="color:var(--purple);font-weight:600;">${sc} / ${total}</span></div>
+  `;
+
+  ['gr1','gr2','gr3','gr4'].forEach(id=>{
+    document.getElementById(id).classList.toggle('active',id===activeRow);
+  });
+}
+
+function restartGame(){
+  document.getElementById('finalScreen').style.display='none';
+  document.getElementById('progressSection').style.display='block';
+  document.getElementById('questionScreen').style.display='block';
+  shuffled=shuffle(CARDS); current=0; score=0;
+  renderCard();
+}
+
+function shareScore(){
+  const total=shuffled.length;
+  const pct=Math.round((score/total)*100);
+  let grade;
+  if(pct>=92) grade='🏆 Safety Champion';
+  else if(pct>=72) grade='⭐ Safety Aware';
+  else if(pct>=52) grade='👍 Good Effort';
+  else grade='📚 Keep Learning';
+  const msg=`I scored ${score}/${total} on the LUX* Grand Gaube Safety Scenario Card Game!\n${grade}\nWorld Safety & Health Day 2026 🧠`;
+  if(navigator.share){navigator.share({title:'My Safety Score',text:msg});}
+  else if(navigator.clipboard){navigator.clipboard.writeText(msg).then(()=>alert('Score copied! Paste it in WhatsApp 📲'));}
+}
+</script>
+</body>
+</html>
